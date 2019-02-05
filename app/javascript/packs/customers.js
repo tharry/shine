@@ -4,6 +4,7 @@ import { Component, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { Http, HttpModule } from "@angular/http"
 
 var CustomerSearchComponent = Component({
   selector: "shine-customer-search",
@@ -46,37 +47,36 @@ var CustomerSearchComponent = Component({
   </section> \
   '
 }).Class({
-  constructor: function() {
-    this.customers = null;
-    this.keywords = null;
-  },
+  constructor: [
+    Http,
+    function(http) {
+      this.customers = null;
+      this.http = http;
+      this.keywords = "";
+  }],
   search: function() {
-    if (this.keywords == "pat") {
-      this.customers = RESULTS;
-    } else {
-      this.customers= [];
-    }
+    var self = this;
+    self.http.get(
+      "/customers.json?keywords=" + self.keywords
+    ).subscribe(
+      function(response) {
+        self.customers = response.json().customers;
+      },
+      function(response) {
+        window.alert(response);
+      }
+    )
   }
 });
 
 var CustomerAppModule = NgModule({
-  imports: [BrowserModule, FormsModule],
-  declarations: [CustomerSearchComponent],
-  bootstrap: [CustomerSearchComponent]
+  imports: [ BrowserModule, FormsModule, HttpModule ],
+  declarations: [ CustomerSearchComponent ],
+  bootstrap: [ CustomerSearchComponent ]
 }).Class({
   constructor: function() {
 
   }
 });
-
-var RESULTS = [
-  {
-    first_name: "Patricia",
-    last_name: "Clark",
-    username: "psmith",
-    email: "psmith@gmail.com",
-    created_at: "2016-02-05"
-  }
-];
 
 platformBrowserDynamic().bootstrapModule(CustomerAppModule);
