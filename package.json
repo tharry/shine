@@ -2,8 +2,20 @@
   "name": "shine",
   "private": true,
   "dependencies": {
+    "@angular/common": "^7.2.3",
+    "@angular/compiler": "^7.2.3",
+    "@angular/core": "^7.2.3",
+    "@angular/forms": "^7.2.3",
+    "@angular/http": "^7.2.3",
+    "@angular/platform-browser": "^7.2.3",
+    "@angular/platform-browser-dynamic": "^7.2.3",
     "@rails/webpacker": "3.5",
-    "bootstrap": "3"
+    "bootstrap": "3",
+    "core-js": "^2.6.3",
+    "rxjs": "^6.4.0",
+    "ts-loader": "3.5.0",
+    "typescript": "^3.3.1",
+    "zone.js": "^0.8.29"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
