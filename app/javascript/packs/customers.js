@@ -30,26 +30,32 @@ var CustomerSearchComponent = Component({
       <h1 class="h3">Results</h1> \
     </header> \
     <ol class="list-group"> \
-      <li class="list-group-item clearfix"> \
+      <li *ngFor="let customer of customers" \
+        class="list-group-item clearfix" > \
         <h3 class="pull-right"> \
           <small class="text-uppercase">Joined</small> \
-          2016-01-01 \
+          {{customer.created_at}} \
         </h3> \
         <h2 class="h3"> \
-          Pat Smith\
-          <small>psmith34</small> \
+          {{customer.first_name}} {{customer.last_name}}\
+          <small>{{customer.username}}</small> \
         </h2> \
-        <h4>pat.smith@example.com</h4> \
+        <h4>{{customer.email}}</h4> \
       </li> \
     </ol> \
   </section> \
   '
 }).Class({
   constructor: function() {
+    this.customers = null;
     this.keywords = null;
   },
   search: function() {
-    alert("Searched for: " + this.keywords);
+    if (this.keywords == "pat") {
+      this.customers = RESULTS;
+    } else {
+      this.customers= [];
+    }
   }
 });
 
@@ -62,5 +68,15 @@ var CustomerAppModule = NgModule({
 
   }
 });
+
+var RESULTS = [
+  {
+    first_name: "Patricia",
+    last_name: "Clark",
+    username: "psmith",
+    email: "psmith@gmail.com",
+    created_at: "2016-02-05"
+  }
+];
 
 platformBrowserDynamic().bootstrapModule(CustomerAppModule);
