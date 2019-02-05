@@ -14,16 +14,11 @@ var CustomerSearchComponent = Component({
   </header> \
   <section class="search-form"> \
     <form> \
-      <div class="input-group input-group-lg"> \
-        <label for="keywords" class="sr-only">Keywords</label> \
-        <input type="text" id="keywords" name="keywords" \
-          placeholder="First Name, Last Name, or Email Address" \
-          class="form-control input-lg" \
-          bindon-ngModel="keywords" > \
-        <span class="input-group-btn"> \
-          <input type="submit" value="Find Customers" class="btn btn-primary btn-lg" on-click="search()"> \
-        </span> \
-      </div> \
+      <label for="keywords" class="sr-only">Keywords</label> \
+      <input type="text" id="keywords" name="keywords" \
+        placeholder="First Name, Last Name, or Email Address" \
+        class="form-control input-lg" \
+        bindon-ngModel="keywords" on-ngModelChange="search($event)"> \
     </form> \
   </section> \
   <section class="search-results"> \
@@ -54,8 +49,12 @@ var CustomerSearchComponent = Component({
       this.http = http;
       this.keywords = "";
   }],
-  search: function() {
+  search: function($event) {
     var self = this;
+    self.keywords = $event;
+    if (self.keywords.length < 3) {
+      return;
+    }
     self.http.get(
       "/customers.json?keywords=" + self.keywords
     ).subscribe(
